@@ -1,7 +1,7 @@
 import java.util.LinkedList
 
 fun numberOfSubarrays(nums: IntArray, k: Int): Int {
-    var numberOfSubarrays = 0
+    var count = 0
     var lastEvenNumIdx = -1
     val idxOfOddNums = LinkedList<Int>()
     for ((i, num) in nums.withIndex()) {
@@ -12,8 +12,8 @@ fun numberOfSubarrays(nums: IntArray, k: Int): Int {
             lastEvenNumIdx = idxOfOddNums.remove()
         }
         if (idxOfOddNums.size == k) {
-            numberOfSubarrays += (idxOfOddNums.first() - lastEvenNumIdx)
+            count += (idxOfOddNums.first() - lastEvenNumIdx)
         }
     }
-    return numberOfSubarrays
+    return count
 }
