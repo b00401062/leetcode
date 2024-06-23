@@ -1,7 +1,7 @@
 fun choose(n: Int, k: Int): Int {
     var res = 1L
     for (i in 0 until k) {
-        res *= (n - i) / (i + 1)
+        res = res * (n - i) / (i + 1)
     }
     return res.toInt()
 }
