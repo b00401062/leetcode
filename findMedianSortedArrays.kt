@@ -1,9 +1,9 @@
-fun select(l1: IntArray, l2: IntArray, k: Int): Double {
+fun select(l1: IntArray, l2: IntArray, k: Int): Int {
     if (l1.isEmpty()) {
-        return l2[k].toDouble()
+        return l2[k]
     }
     if (l2.isEmpty()) {
-        return l1[k].toDouble()
+        return l1[k]
     }
     val pivot = l1[l1.size / 2]
     val index = l2.binarySearch(pivot)
@@ -21,7 +21,7 @@ fun select(l1: IntArray, l2: IntArray, k: Int): Double {
             val subL2 = l2.sliceArray(ltPivotInL2Cnt until l2.size)
             select(subL1, subL2, k - ltPivotCnt - 1)
         }
-        else -> pivot.toDouble()
+        else -> pivot
     }
 }
 
@@ -31,8 +31,8 @@ fun findMedianSortedArrays(nums1: IntArray, nums2: IntArray): Double {
         0 -> {
             val ltMed = select(nums1, nums2, len / 2 - 1)
             val rtMed = select(nums1, nums2, len / 2)
-            (ltMed + rtMed) / 2
+            (ltMed + rtMed).toDouble() / 2
         }
-        else -> select(nums1, nums2, len / 2)
+        else -> select(nums1, nums2, len / 2).toDouble()
     }
 }

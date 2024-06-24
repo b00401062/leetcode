@@ -17,7 +17,7 @@ fun addTwoNumbersRecursively(l1: ListNode?, l2: ListNode?): ListNode? {
         l2 == null -> l1
         else -> ListNode(
             l1.`val` + l2.`val`,
-            addTwoNumbers(l1.next, l2.next)
+             addTwoNumbers(l1.next, l2.next)
         )
     }
 }
