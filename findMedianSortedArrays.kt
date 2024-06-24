@@ -27,7 +27,7 @@ fun select(l1: IntArray, l2: IntArray, k: Int): Int {
 
 fun findMedianSortedArrays(nums1: IntArray, nums2: IntArray): Double {
     val len = nums1.size + nums2.size
-    return when(len % 2) {
+    return when (len % 2) {
         0 -> {
             val ltMed = select(nums1, nums2, len / 2 - 1)
             val rtMed = select(nums1, nums2, len / 2)
