@@ -14,26 +14,17 @@ HashTable table_init() {
     return calloc(sizeof(HashTableEntry*), HASHTABLECAPACITY);
 }
 
-bool table_has(HashTable table, int key) {
+int* table_get(HashTable table, int key) {
     int hash = (key % HASHTABLECAPACITY + HASHTABLECAPACITY) % HASHTABLECAPACITY;
+    int* value = NULL;
     while (table[hash] != NULL) {
         if (table[hash]->key == key) {
-            return true;
+            value = malloc(sizeof(int));
+            *value = table[hash]->value;
         }
         hash = (hash + 1) % HASHTABLECAPACITY;
     }
-    return false;
-}
-
-int table_get(HashTable table, int key) {
-    int hash = (key % HASHTABLECAPACITY + HASHTABLECAPACITY) % HASHTABLECAPACITY;
-    while (table[hash] != NULL) {
-        if (table[hash]->key == key) {
-            return table[hash]->value;
-        }
-        hash = (hash + 1) % HASHTABLECAPACITY;
-    }
-    exit(EXIT_FAILURE);
+    return value;
 }
 
 void table_insert(HashTable table, int key, int value) {
@@ -41,7 +32,7 @@ void table_insert(HashTable table, int key, int value) {
     while (table[hash] != NULL) {
         hash = (hash + 1) % HASHTABLECAPACITY;
     }
-    table[hash] = calloc(sizeof(HashTableEntry), 1);
+    table[hash] = malloc(sizeof(HashTableEntry));
     table[hash]->key = key;
     table[hash]->value = value;
 }
@@ -57,14 +48,16 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
     HashTable idxOfNums = table_init();
     for (int i = 0; i < numsSize; i++) {
         int num = nums[i];
-        if (table_has(idxOfNums, target - num)) {
-            int* indices = (int*) calloc(sizeof(int), 2);
-            indices[0] = table_get(idxOfNums, target - num);
-            indices[1] = i;
-            *returnSize = 2;
-            return indices;
-        } else {
+        int* j = table_get(idxOfNums, target - num);
+        if (j == NULL) {
             table_insert(idxOfNums, num, i);
+        } else {
+            *returnSize = 2;
+            int* indices = malloc(sizeof(int) * *returnSize);
+            indices[0] = *j;
+            indices[1] = i;
+            free(j);
+            return indices;
         }
     }
     table_destroy(idxOfNums);
