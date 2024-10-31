@@ -27,7 +27,7 @@ int* table_get(HashTable table, int key) {
     return value;
 }
 
-void table_insert(HashTable table, int key, int value) {
+void table_put(HashTable table, int key, int value) {
     int hash = (key % HASHTABLECAPACITY + HASHTABLECAPACITY) % HASHTABLECAPACITY;
     while (table[hash] != NULL) {
         hash = (hash + 1) % HASHTABLECAPACITY;
@@ -37,7 +37,7 @@ void table_insert(HashTable table, int key, int value) {
     table[hash]->value = value;
 }
 
-void table_destroy(HashTable table) {
+void table_free(HashTable table) {
     for (int i = 0; i < HASHTABLECAPACITY; i++) {
         free(table[i]);
     }
@@ -50,7 +50,7 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
         int num = nums[i];
         int* j = table_get(idxOfNums, target - num);
         if (j == NULL) {
-            table_insert(idxOfNums, num, i);
+            table_put(idxOfNums, num, i);
         } else {
             *returnSize = 2;
             int* indices = malloc(sizeof(int) * *returnSize);
@@ -60,6 +60,6 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
             return indices;
         }
     }
-    table_destroy(idxOfNums);
+    table_free(idxOfNums);
     exit(EXIT_FAILURE);
 }
