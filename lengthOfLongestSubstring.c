@@ -1,48 +1,54 @@
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
+
+#define TABLE_CAPACITY 128
 
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 
 typedef struct {
     int** data;
-    int size;
+    int* size;
 } Table;
 
-#define TABLE_CAPACITY 23
-
 int toHash(char c) {
-    return c - 'a';
+    return c - '\0';
 }
 
 Table table_init() {
     Table table = {
         .data = calloc(sizeof(int*), TABLE_CAPACITY),
-        .size = 0
+        .size = calloc(sizeof(int), 1)
     };
     return table;
 }
 
-int* table_get(Table table, char key) {
+bool table_has(Table table, char key) {
     int hash = toHash(key);
-    return table.data[hash];
+    return table.data[hash] != NULL;
+}
+
+int table_get(Table table, char key) {
+    int hash = toHash(key);
+    return *table.data[hash];
 }
 
 void table_put(Table table, char key, int value) {
     int hash = toHash(key);
     table.data[hash] = malloc(sizeof(int));
-    table.data[hash]
-    table.size += 1;
+    *table.data[hash] = value;
+    *table.size += 1;
 }
 
 int table_size(Table table) {
-    return table.size;
+    return *table.size;
 }
 
 void table_del(Table table, char key) {
     int hash = toHash(key);
     free(table.data[hash]);
     table.data[hash] = NULL;
-    table.size -= 1;
+    *table.size -= 1;
 }
 
 void table_free(Table table) {
@@ -52,31 +58,22 @@ void table_free(Table table) {
     free(table.data);
 }
 
-void table_show(Table table) {
-    printf("%d\n", table.size);
-}
-
 int lengthOfLongestSubstring(char* s) {
     Table idxOfChars = table_init();
     int maxLen = 0;
     int headIdx = 0;
     for (int i = 0; i < strlen(s); i++) {
         char c = s[i];
-        int* preCIdx = table_get(idxOfChars, c);
-        if (preCIdx != NULL) {
-            for (int j = headIdx; j < *preCIdx; j++) {
+        if (table_has(idxOfChars, c)) {
+            int preCIdx = table_get(idxOfChars, c);
+            for (int j = headIdx; j <= preCIdx; j++) {
                 table_del(idxOfChars, s[j]);
             }
-            headIdx = *preCIdx + 1;
+            headIdx = preCIdx + 1;
         }
         table_put(idxOfChars, c, i);
         maxLen = MAX(maxLen, table_size(idxOfChars));
-        table_show(idxOfChars);
     }
     table_free(idxOfChars);
     return maxLen;
-}
-
-int main() {
-    printf("%d\n", lengthOfLongestSubstring("bbbbbb"));
 }
