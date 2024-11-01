@@ -11,10 +11,6 @@ typedef struct {
     int* size;
 } Table;
 
-int toHash(char c) {
-    return c - '\0';
-}
-
 Table table_init() {
     Table table = {
         .data = calloc(sizeof(int*), TABLE_CAPACITY),
@@ -24,19 +20,16 @@ Table table_init() {
 }
 
 bool table_has(Table table, char key) {
-    int hash = toHash(key);
-    return table.data[hash] != NULL;
+    return table.data[key] != NULL;
 }
 
 int table_get(Table table, char key) {
-    int hash = toHash(key);
-    return *table.data[hash];
+    return *table.data[key];
 }
 
 void table_put(Table table, char key, int value) {
-    int hash = toHash(key);
-    table.data[hash] = malloc(sizeof(int));
-    *table.data[hash] = value;
+    table.data[key] = malloc(sizeof(int));
+    *table.data[key] = value;
     *table.size += 1;
 }
 
@@ -45,9 +38,8 @@ int table_size(Table table) {
 }
 
 void table_del(Table table, char key) {
-    int hash = toHash(key);
-    free(table.data[hash]);
-    table.data[hash] = NULL;
+    free(table.data[key]);
+    table.data[key] = NULL;
     *table.size -= 1;
 }
 
@@ -56,6 +48,7 @@ void table_free(Table table) {
         free(table.data[i]);
     }
     free(table.data);
+    free(table.size);
 }
 
 int lengthOfLongestSubstring(char* s) {
