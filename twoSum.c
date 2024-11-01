@@ -33,8 +33,8 @@ void table_put(Table table, int key, int value) {
         hash = (hash + 1) % TABLE_CAPACITY;
     }
     table[hash] = malloc(sizeof(TableEntry));
-    table[hash]->key = key;
-    table[hash]->value = value;
+    TableEntry entry = {key, value};
+    *table[hash] = entry;
 }
 
 void table_free(Table table) {
