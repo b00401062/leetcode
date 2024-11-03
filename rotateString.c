@@ -1,4 +1,6 @@
 #include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
 
 bool rotateString(char* s, char* goal) {
     if (strlen(s) != strlen(goal)) {
