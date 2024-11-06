@@ -4,7 +4,7 @@
 
 #define TABLE_CAPACITY 128
 
-#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define max(x, y) (((x) > (y)) ? (x) : (y))
 
 typedef struct {
     int** data;
@@ -65,7 +65,7 @@ int lengthOfLongestSubstring(char* s) {
             headIdx = preCIdx + 1;
         }
         table_put(idxOfChars, c, i);
-        maxLen = MAX(maxLen, table_size(idxOfChars));
+        maxLen = max(maxLen, table_size(idxOfChars));
     }
     table_free(idxOfChars);
     return maxLen;
