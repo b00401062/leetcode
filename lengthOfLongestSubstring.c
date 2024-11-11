@@ -7,52 +7,49 @@
 #define max(x, y) (((x) > (y)) ? (x) : (y))
 
 typedef struct {
-    int** data;
-    int* size;
+    int* data[TABLE_CAPACITY];
+    int size;
 } Table;
 
-Table table_init() {
-    Table table = {
-        .data = calloc(sizeof(int*), TABLE_CAPACITY),
-        .size = calloc(sizeof(int), 1)
-    };
-    return table;
+Table* table_init() {
+    Table* self = malloc(sizeof(Table));
+    self->size = 0;
+    memset(self->data, 0, TABLE_CAPACITY * sizeof(int*));
+    return self;
 }
 
-bool table_has(Table table, char key) {
-    return table.data[key] != NULL;
+bool table_has(Table* self, char key) {
+    return self->data[key] != NULL;
 }
 
-int table_get(Table table, char key) {
-    return *table.data[key];
+int table_get(Table* self, char key) {
+    return *self->data[key];
 }
 
-void table_put(Table table, char key, int value) {
-    table.data[key] = malloc(sizeof(int));
-    *table.data[key] = value;
-    *table.size += 1;
+void table_put(Table* self, char key, int value) {
+    self->data[key] = malloc(sizeof(int));
+    *self->data[key] = value;
+    self->size += 1;
 }
 
-int table_size(Table table) {
-    return *table.size;
+int table_size(Table* self) {
+    return self->size;
 }
 
-void table_del(Table table, char key) {
-    free(table.data[key]);
-    table.data[key] = NULL;
-    *table.size -= 1;
+void table_del(Table* self, char key) {
+    free(self->data[key]);
+    self->data[key] = NULL;
+    self->size -= 1;
 }
 
-void table_free(Table table) {
+void table_free(Table* self) {
     for (int i = 0; i < TABLE_CAPACITY; i++) {
-        free(table.data[i]);
+        free(self->data[i]);
     }
-    free(table.data);
-    free(table.size);
 }
 
 int lengthOfLongestSubstring(char* s) {
-    Table idxOfChars = table_init();
+    Table* idxOfChars = table_init();
     int maxLen = 0;
     int headIdx = 0;
     for (int i = 0; i < strlen(s); i++) {
