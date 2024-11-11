@@ -12,9 +12,7 @@ typedef struct {
 } Table;
 
 Table* table_init() {
-    Table* self = malloc(sizeof(Table));
-    self->size = 0;
-    memset(self->data, 0, TABLE_CAPACITY * sizeof(int*));
+    Table* self = calloc(1, sizeof(Table));
     return self;
 }
 
