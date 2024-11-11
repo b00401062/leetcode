@@ -6,10 +6,10 @@ struct ListNode {
 };
 
 struct ListNode* listNode_init(int val, struct ListNode* next) {
-    struct ListNode* node = malloc(sizeof(struct ListNode));
-    node->val = val;
-    node->next = next;
-    return node;
+    struct ListNode* self = malloc(sizeof(struct ListNode));
+    self->val = val;
+    self->next = next;
+    return self;
 }
 
 struct ListNode* addTwoNumbersRecursively(struct ListNode* l1, struct ListNode* l2) {
