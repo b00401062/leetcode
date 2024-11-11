@@ -3,6 +3,8 @@
 
 #define TABLE_CAPACITY 100003
 
+#define hash(key) (((key) % TABLE_CAPACITY + TABLE_CAPACITY) % TABLE_CAPACITY)
+
 typedef struct {
     int key;
     int value;
@@ -18,7 +20,7 @@ Table* table_init() {
 }
 
 bool table_has(Table* self, int key) {
-    int hash = (key % TABLE_CAPACITY + TABLE_CAPACITY) % TABLE_CAPACITY;
+    int hash = hash(key);
     while (self->data[hash] != NULL) {
         if (self->data[hash]->key == key) {
             return true;
@@ -29,7 +31,7 @@ bool table_has(Table* self, int key) {
 }
 
 int table_get(Table* self, int key) {
-    int hash = (key % TABLE_CAPACITY + TABLE_CAPACITY) % TABLE_CAPACITY;
+    int hash = hash(key);
     while (self->data[hash] != NULL) {
         if (self->data[hash]->key == key) {
             return self->data[hash]->value;
@@ -40,7 +42,7 @@ int table_get(Table* self, int key) {
 }
 
 void table_put(Table* self, int key, int value) {
-    int hash = (key % TABLE_CAPACITY + TABLE_CAPACITY) % TABLE_CAPACITY;
+    int hash = hash(key);
     while (self->data[hash] != NULL) {
         hash = (hash + 1) % TABLE_CAPACITY;
     }
