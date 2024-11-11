@@ -8,56 +8,66 @@ typedef struct {
     int value;
 } TableEntry;
 
-typedef TableEntry** Table;
+typedef struct {
+    TableEntry* data[TABLE_CAPACITY];
+} Table;
 
-Table table_init() {
-    return calloc(sizeof(TableEntry*), TABLE_CAPACITY);
+Table* table_init() {
+    Table* self = calloc(1, sizeof(Table));
+    return self;
 }
 
-int* table_get(Table table, int key) {
+bool table_has(Table* self, int key) {
     int hash = (key % TABLE_CAPACITY + TABLE_CAPACITY) % TABLE_CAPACITY;
-    int* value = NULL;
-    while (table[hash] != NULL) {
-        if (table[hash]->key == key) {
-            value = malloc(sizeof(int));
-            *value = table[hash]->value;
+    while (self->data[hash] != NULL) {
+        if (self->data[hash]->key == key) {
+            return true;
         }
         hash = (hash + 1) % TABLE_CAPACITY;
     }
-    return value;
+    return false;
 }
 
-void table_put(Table table, int key, int value) {
+int table_get(Table* self, int key) {
     int hash = (key % TABLE_CAPACITY + TABLE_CAPACITY) % TABLE_CAPACITY;
-    while (table[hash] != NULL) {
+    while (self->data[hash] != NULL) {
+        if (self->data[hash]->key == key) {
+            return self->data[hash]->value;
+        }
         hash = (hash + 1) % TABLE_CAPACITY;
     }
-    table[hash] = malloc(sizeof(TableEntry));
-    TableEntry entry = {key, value};
-    *table[hash] = entry;
+    exit(EXIT_FAILURE);
 }
 
-void table_free(Table table) {
-    for (int i = 0; i < TABLE_CAPACITY; i++) {
-        free(table[i]);
+void table_put(Table* self, int key, int value) {
+    int hash = (key % TABLE_CAPACITY + TABLE_CAPACITY) % TABLE_CAPACITY;
+    while (self->data[hash] != NULL) {
+        hash = (hash + 1) % TABLE_CAPACITY;
     }
-    free(table);
+    self->data[hash] = malloc(sizeof(TableEntry));
+    TableEntry entry = {key, value};
+    *self->data[hash] = entry;
+}
+
+void table_free(Table* self) {
+    for (int i = 0; i < TABLE_CAPACITY; i++) {
+        free(self->data[i]);
+    }
+    free(self);
 }
 
 int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
-    Table idxOfNums = table_init();
+    Table* idxOfNums = table_init();
     for (int i = 0; i < numsSize; i++) {
         int num = nums[i];
-        int* j = table_get(idxOfNums, target - num);
-        if (j == NULL) {
-            table_put(idxOfNums, num, i);
-        } else {
+        if (table_has(idxOfNums, target - num)) {
             *returnSize = 2;
             int* indices = malloc(sizeof(int) * *returnSize);
-            indices[0] = *j;
+            indices[0] = table_get(idxOfNums, target - num);
             indices[1] = i;
-            free(j);
             return indices;
+        } else {
+            table_put(idxOfNums, num, i);
         }
     }
     table_free(idxOfNums);
