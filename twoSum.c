@@ -59,19 +59,21 @@ void table_free(Table* self) {
 }
 
 int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+    *returnSize = 0;
+    int* indices = NULL;
     Table* idxOfNums = table_init();
     for (int i = 0; i < numsSize; i++) {
         int num = nums[i];
         if (table_has(idxOfNums, target - num)) {
             *returnSize = 2;
-            int* indices = malloc(sizeof(int) * *returnSize);
+            indices = malloc(sizeof(int) * *returnSize);
             indices[0] = table_get(idxOfNums, target - num);
             indices[1] = i;
-            return indices;
+            break;
         } else {
             table_put(idxOfNums, num, i);
         }
     }
     table_free(idxOfNums);
-    exit(EXIT_FAILURE);
+    return indices;
 }
