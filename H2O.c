@@ -33,4 +33,5 @@ void h2oFree(H2O* obj) {
     sem_destroy(&obj->hLock);
     pthread_mutex_destroy(&obj->oLock);
     pthread_barrier_destroy(&obj->barrier);
+    free(obj);
 }
