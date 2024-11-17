@@ -30,7 +30,7 @@ void even(ZeroEvenOdd* obj) {
     for (int i = 2; i <= obj->n; i += 2) {
         pthread_mutex_lock(&obj->locks[0]);
         printNumber(i);
-        pthread_mutex_unlock(&obj->[2]);
+        pthread_mutex_unlock(&obj->locks[2]);
     }
 }
 
