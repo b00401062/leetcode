@@ -78,7 +78,7 @@ int shortestSubarray(int* nums, int numsSize, int k) {
         while (deque->size > 0 && curSum - dequePeekFront(deque).prefixSum >= k) {
             res =  min(res, i - dequePopFront(deque).endID);
         }
-        while (deque->size > 0 && dequePeekBack(deque).prefixSum > curSum) {
+        while (deque->size > 0 && dequePeekBack(deque).prefixSum >= curSum) {
             dequePopBack(deque);
         }
         DequeEntry entry = {curSum, i};
