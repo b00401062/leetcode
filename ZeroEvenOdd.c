@@ -11,10 +11,9 @@ ZeroEvenOdd* zeroEvenOddCreate(int n) {
     obj->n = n;
     for (int i = 0; i < 3; i++) {
         pthread_mutex_init(&obj->locks[i], NULL);
-    }
-    for (int i = 0; i < 2; i++) {
         pthread_mutex_lock(&obj->locks[i]);
     }
+    pthread_mutex_ulock(&obj->locks[2]);
     return obj;
 }
 
