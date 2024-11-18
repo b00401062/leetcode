@@ -11,57 +11,57 @@ typedef struct {
     int size;
 } Table;
 
-Table* table_init() {
+Table* tableInit() {
     Table* self = calloc(1, sizeof(Table));
     return self;
 }
 
-bool table_has(Table* self, char key) {
+bool tableHas(Table* self, char key) {
     return self->data[key] != NULL;
 }
 
-int table_get(Table* self, char key) {
+int tableGet(Table* self, char key) {
     return *self->data[key];
 }
 
-void table_put(Table* self, char key, int value) {
+void tablePut(Table* self, char key, int value) {
     self->data[key] = malloc(sizeof(int));
     *self->data[key] = value;
     self->size += 1;
 }
 
-int table_size(Table* self) {
+int tableSize(Table* self) {
     return self->size;
 }
 
-void table_del(Table* self, char key) {
+void tableDel(Table* self, char key) {
     free(self->data[key]);
     self->data[key] = NULL;
     self->size -= 1;
 }
 
-void table_free(Table* self) {
+void tableFree(Table* self) {
     for (int i = 0; i < TABLE_CAPACITY; i++) {
         free(self->data[i]);
     }
 }
 
 int lengthOfLongestSubstring(char* s) {
-    Table* idxOfChars = table_init();
+    Table* idxOfChars = tableInit();
     int maxLen = 0;
     int headIdx = 0;
     for (int i = 0; i < strlen(s); i++) {
         char c = s[i];
-        if (table_has(idxOfChars, c)) {
-            int preCIdx = table_get(idxOfChars, c);
+        if (tableHas(idxOfChars, c)) {
+            int preCIdx = tableGet(idxOfChars, c);
             for (int j = headIdx; j <= preCIdx; j++) {
-                table_del(idxOfChars, s[j]);
+                tableDel(idxOfChars, s[j]);
             }
             headIdx = preCIdx + 1;
         }
-        table_put(idxOfChars, c, i);
-        maxLen = max(maxLen, table_size(idxOfChars));
+        tablePut(idxOfChars, c, i);
+        maxLen = max(maxLen, tableSize(idxOfChars));
     }
-    table_free(idxOfChars);
+    tableFree(idxOfChars);
     return maxLen;
 }
