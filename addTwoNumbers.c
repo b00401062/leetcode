@@ -5,7 +5,7 @@ struct ListNode {
     struct ListNode *next;
 };
 
-struct ListNode* listNode_init(int val, struct ListNode* next) {
+struct ListNode* listNodeInit(int val, struct ListNode* next) {
     struct ListNode* self = malloc(sizeof(struct ListNode));
     self->val = val;
     self->next = next;
@@ -18,7 +18,7 @@ struct ListNode* addTwoNumbersRecursively(struct ListNode* l1, struct ListNode* 
     } else if (l2 == NULL) {
         return l1;
     } else {
-        return listNode_init(
+        return listNodeInit(
             l1->val + l2->val,
             addTwoNumbersRecursively(l1->next, l2->next)
         );
@@ -32,7 +32,7 @@ struct ListNode* carryRecursively(struct ListNode* l) {
     if (l->val >= 10) {
         l->val -= 10;
         if (l->next == NULL) {
-            l->next = listNode_init(0, NULL);
+            l->next = listNodeInit(0, NULL);
         }
         l->next->val += 1;
     }
