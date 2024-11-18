@@ -19,7 +19,7 @@ Table* table_init() {
     return self;
 }
 
-bool table_has(Table* self, int key) {
+bool tableHas(Table* self, int key) {
     int hash = hash(key);
     while (self->data[hash] != NULL) {
         if (self->data[hash]->key == key) {
@@ -30,7 +30,7 @@ bool table_has(Table* self, int key) {
     return false;
 }
 
-int table_get(Table* self, int key) {
+int tableGet(Table* self, int key) {
     int hash = hash(key);
     while (self->data[hash] != NULL) {
         if (self->data[hash]->key == key) {
@@ -41,7 +41,7 @@ int table_get(Table* self, int key) {
     exit(EXIT_FAILURE);
 }
 
-void table_put(Table* self, int key, int value) {
+void tablePut(Table* self, int key, int value) {
     int hash = hash(key);
     while (self->data[hash] != NULL) {
         hash = (hash + 1) % TABLE_CAPACITY;
@@ -51,7 +51,7 @@ void table_put(Table* self, int key, int value) {
     *self->data[hash] = entry;
 }
 
-void table_free(Table* self) {
+void tableFree(Table* self) {
     for (int i = 0; i < TABLE_CAPACITY; i++) {
         free(self->data[i]);
     }
@@ -64,16 +64,16 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
     Table* idxOfNums = table_init();
     for (int i = 0; i < numsSize; i++) {
         int num = nums[i];
-        if (table_has(idxOfNums, target - num)) {
+        if (tableHas(idxOfNums, target - num)) {
             *returnSize = 2;
             indices = malloc(sizeof(int) * *returnSize);
-            indices[0] = table_get(idxOfNums, target - num);
+            indices[0] = tableGet(idxOfNums, target - num);
             indices[1] = i;
             break;
         } else {
-            table_put(idxOfNums, num, i);
+            tablePut(idxOfNums, num, i);
         }
     }
-    table_free(idxOfNums);
+    tableFree(idxOfNums);
     return indices;
 }
