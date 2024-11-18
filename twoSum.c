@@ -14,7 +14,7 @@ typedef struct {
     TableEntry* data[TABLE_CAPACITY];
 } Table;
 
-Table* table_init() {
+Table* tableInit() {
     Table* self = calloc(1, sizeof(Table));
     return self;
 }
@@ -61,7 +61,7 @@ void tableFree(Table* self) {
 int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
     *returnSize = 0;
     int* indices = NULL;
-    Table* idxOfNums = table_init();
+    Table* idxOfNums = tableInit();
     for (int i = 0; i < numsSize; i++) {
         int num = nums[i];
         if (tableHas(idxOfNums, target - num)) {
