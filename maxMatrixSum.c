@@ -22,5 +22,5 @@ long long maxMatrixSum(int** matrix, int matrixSize, int* matrixColSize) {
             hasZero |= num == 0;
         }
     }
-    return sum - 2 * minAbsNum * (!hasZero && negNumCnt % 2 == 1);
+    return sum - 2 * minAbsNum * (!hasZero && negNumCnt % 2);
 }
