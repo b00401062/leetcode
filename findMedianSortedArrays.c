@@ -27,7 +27,13 @@ int select(int* nums1, int nums1Size, int* nums2, int nums2Size, int k) {
     int nums2Cnt = index >= 0 ? index : -index - 1;
     int count = nums1Cnt + nums2Cnt;
     if (count < k) {
-        return select(&nums1[nums1Cnt + 1], nums1Size - nums1Cnt - 1, &nums2[nums2Cnt], nums2Size - nums2Cnt, k - count - 1);
+        return select(
+            &nums1[nums1Cnt + 1],
+            nums1Size - nums1Cnt - 1,
+            &nums2[nums2Cnt],
+            nums2Size - nums2Cnt,
+            k - count - 1
+        );
     } else if (count > k) {
         return select(nums1, nums1Cnt, nums2, nums2Cnt, k);
     } else {
