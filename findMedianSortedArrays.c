@@ -3,12 +3,12 @@ int binarySearch(int* nums, int size, int target) {
     int r = size;
     while (l < r) {
         int m = (l + r) / 2;
-        if (nums[m] == target) {
-            return m;
-        } else if (nums[m] < target) {
+        if (nums[m] < target) {
             l = m + 1;
-        } else {
+        } else if (nums[m] > target) {
             r = m;
+        } else {
+            return m;
         }
     }
     return l;
