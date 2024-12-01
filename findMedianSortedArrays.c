@@ -43,9 +43,9 @@ int select(int* nums1, int nums1Size, int* nums2, int nums2Size, int k) {
 double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size) {
     int size = nums1Size + nums2Size;
     if (size % 2 == 0) {
-        int l = select(nums1, nums1Size, nums2, nums2Size, size / 2 - 1);
-        int r = select(nums1, nums1Size, nums2, nums2Size, size / 2);
-        return ((double) (l + r)) / 2;
+        double l = select(nums1, nums1Size, nums2, nums2Size, size / 2 - 1);
+        double r = select(nums1, nums1Size, nums2, nums2Size, size / 2);
+        return (l + r) / 2;
     } else {
         return select(nums1, nums1Size, nums2, nums2Size, size / 2);
     }
