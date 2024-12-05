@@ -35,12 +35,6 @@ char* subsequence(char* s, int lt, int rt, int jump) {
     return res;
 }
 
-char* substring(char* s, int lt, int rt) {
-    char* res = malloc(rt - lt + 1);
-    strncat(res, &s[lt], rt - lt);
-    return res;
-}
-
 int argmax(int* a, int size) {
     int arg = 0;
     int max = a[0];
@@ -60,11 +54,11 @@ char* longestPalindrome(char* s) {
     char* js = strJoin(s, '#');
     int jsLen = strlen(js);
     int spans[jsLen];
-    int ctIdx = 0, rtIdx = 0;
+    int ct = 0, rt = 0;
     memset(spans, 0, sizeof(spans));
     for (int i = 1; i < jsLen; i++) {
-        if (i <= rtIdx) {
-            spans[i] = min(rtIdx - i, spans[2 * ctIdx - i]);
+        if (i <= rt) {
+            spans[i] = min(rt - i, spans[2 * ct - i]);
         }
         while (
             i - spans[i] - 1 >= 0 &&
@@ -73,20 +67,15 @@ char* longestPalindrome(char* s) {
         ) {
             spans[i]++;
         }
-        if (i + spans[i] > rtIdx) {
-            ctIdx = i;
-            rtIdx = i + spans[i];
+        if (i + spans[i] > rt) {
+            ct = i;
+            rt = i + spans[i];
         }
     }
-    int maxCtIdx = argmax(spans, jsLen);
-    int maxLtIdx = maxCtIdx - spans[maxCtIdx];
-    int maxRtIdx = maxCtIdx + spans[maxCtIdx];
-    char* subjs = substring(js, maxLtIdx, maxRtIdx + 1);
-    char* res = subsequence(subjs, 1, strlen(subjs), 2);
-    free(subjs);
+    int mCt = argmax(spans, jsLen);
+    int mLt = mCt - spans[mCt];
+    int mRt = mCt + spans[mCt];
+    char* res = subsequence(js, mLt + 1, mRt, 2);
+    free(js);
     return res;
-}
-
-int main() {
-    printf("%s\n", longestPalindrome("cbbd"));
 }
