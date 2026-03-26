@@ -2,7 +2,7 @@
 
 struct ListNode {
     int val;
-    struct ListNode *next;
+    struct ListNode* next;
 };
 
 struct ListNode* listNodeInit(int val, struct ListNode* next) {
