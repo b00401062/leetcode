@@ -1,33 +1,22 @@
-static const int values[] = {
-    1000,
-    900,
-    500,
-    400,
-    100,
-    90,
-    50,
-    40,
-    10,
-    9,
-    5,
-    4,
-    1
-};
+typedef struct {
+    char* symbol;
+    int value;
+} RomanNumeral;
 
-static const char* symbols[] = {
-    "M",
-    "CM",
-    "D",
-    "CD",
-    "C",
-    "XC",
-    "L",
-    "XL",
-    "X",
-    "IX",
-    "V",
-    "IV",
-    "I"
+static const RomanNumeral romanNumerals[] = {
+    {"M", 1000},
+    {"CM", 900},
+    {"D", 500},
+    {"CD", 400},
+    {"C", 100},
+    {"XC", 90},
+    {"L", 50},
+    {"XL", 40},
+    {"X", 10},
+    {"IX", 9},
+    {"V", 5},
+    {"IV", 4},
+    {"I", 1}
 };
 
 int romanToInt(char* s) {
@@ -35,9 +24,9 @@ int romanToInt(char* s) {
     int i = 0;
     while (s[i] != '\0') {
         for (int j = 0; j < 13; j++) {
-            int len = strlen(symbols[j]);
-            if (strncmp(s + i, symbols[j], len) == 0) {
-                total += values[j];
+            int len = strlen(romanNumerals[j].symbol);
+            if (strncmp(s + i, romanNumerals[j].symbol, len) == 0) {
+                total += romanNumerals[j].value;
                 i += len;
                 break;
             }
