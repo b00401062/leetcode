@@ -7,7 +7,7 @@ typedef struct {
 List listInit() {
     List list;
     list.size = 0;
-    list.capacity = 10;
+    list.capacity = 2;
     list.data = malloc(sizeof(void*) * list.capacity);
     return list;
 }
