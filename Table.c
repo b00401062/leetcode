@@ -1,6 +1,6 @@
 #define TABLE_CAPACITY 100003
 
-#define hash(key) ((key % TABLE_CAPACITY + TABLE_CAPACITY) % TABLE_CAPACITY)
+#define hash(key) (((key) % TABLE_CAPACITY + TABLE_CAPACITY) % TABLE_CAPACITY)
 
 typedef struct {
     int key;
