@@ -13,10 +13,10 @@ typedef struct {
 } Table;
 
 Table tableInit() {
-    Table table;
-    table.capacity = TABLE_CAPACITY;
-    table.entries = calloc(table.capacity, sizeof(TableEntry*));
-    return table;
+    return (Table) {
+        .entries = calloc(TABLE_CAPACITY, sizeof(TableEntry*)),
+        .capacity = TABLE_CAPACITY
+    };
 }
 
 void tablePut(Table* table, int key, void* value) {
