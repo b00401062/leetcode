@@ -28,6 +28,13 @@ int cmp(const void* a, const void* b) {
     return (*(int*)a - *(int*)b);
 }
 
+#define assign(quadruplet, a, b, c, d) { \
+    quadruplet[0] = a; \
+    quadruplet[1] = b; \
+    quadruplet[2] = c; \
+    quadruplet[3] = d; \
+}
+
 int** fourSum(int* nums, int numsSize, int target, int* returnSize, int** returnColumnSizes) {
     qsort(nums, numsSize, sizeof(int), cmp);
     List result = listInit();
@@ -41,7 +48,7 @@ int** fourSum(int* nums, int numsSize, int target, int* returnSize, int** return
                 long sum = (long) nums[i] + nums[j] + nums[left] + nums[right];
                 if (sum == target) {
                     int* quadruplet = malloc(sizeof(int) * 4);
-                    memcpy(quadruplet, (int[]){nums[i], nums[j], nums[left], nums[right]}, sizeof(int) * 4);
+                    assign(quadruplet, nums[i], nums[j], nums[left], nums[right]);
                     listAdd(&result, quadruplet);
                     left++;
                     right--;
