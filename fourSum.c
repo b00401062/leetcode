@@ -5,11 +5,11 @@ typedef struct {
 } List;
 
 List listInit() {
-    List list;
-    list.size = 0;
-    list.capacity = 2;
-    list.data = malloc(sizeof(void*) * list.capacity);
-    return list;
+    return (List) {
+        .data = malloc(sizeof(void*) * 4),
+        .size = 0,
+        .capacity = 4
+    };
 }
 
 void listAdd(List* list, void* value) {
