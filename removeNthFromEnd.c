@@ -10,8 +10,10 @@ struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
     for (int i = 0; i < n; i++) {
         fast = fast->next;
     }
-    while (fast->next != NULL) {
+    while (fast != NULL) {
         fast = fast->next;
         slow = slow->next;
     }
+    slow->next = slow->next->next;
+    return dummy.next;
 }
