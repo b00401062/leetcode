@@ -31,5 +31,6 @@ int strStr(char* haystack, char* needle) {
             return i - j + 1;
         }
     }
+    free(kmp);
     return -1;
 }
