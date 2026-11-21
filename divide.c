@@ -11,6 +11,6 @@ int divide(int dividend, int divisor) {
         quotient += 1L << exp;
         ldividend -= ldivisor << exp;
     }
-    if (quotient > INT_MAX) return INT_MAX;
-    return negative ? -quotient : quotient;
+    if (negative) quotient = -quotient;
+    return (quotient > INT_MAX) ? INT_MAX : quotient;
 }
