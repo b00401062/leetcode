@@ -87,17 +87,10 @@ void listAdd(List* list, int value) {
 }
 
 int* findSubstring(char* s, char** words, int wordsSize, int* returnSize) {
-    if (!s || !words || wordsSize == 0) {
-        return NULL;
-    }
     int N = strlen(s);
     int wordSize = strlen(words[0]);
-    if (N == 0 || wordSize == 0) {
-        return NULL;
-    }
-    int wordsCount = wordsSize;
     Map map = mapInit();
-    for (int i = 0; i < wordsCount; i++) {
+    for (int i = 0; i < wordsSize; i++) {
         mapInsert(map, words[i]);
     }
     List result = listInit();
@@ -118,7 +111,7 @@ int* findSubstring(char* s, char** words, int wordsSize, int* returnSize) {
             }
             currEntry->currCount += 1;
             count += 1;
-            if (count == wordsCount) {
+            if (count == wordsSize) {
                 listAdd(&result, start);
             }
         }
